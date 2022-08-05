@@ -1,8 +1,10 @@
 import styled from "styled-components"
 
 const Body = styled.div`
-background-color: #f2f2f2;
-margin: 4rem 0;
+    background-color: #f2f2f2;
+    margin: 4rem 0;
+    min-height: calc(100vh - 8rem);
+    padding: 0 5%;
 `
 
 const LinkWrapper = styled.div `
