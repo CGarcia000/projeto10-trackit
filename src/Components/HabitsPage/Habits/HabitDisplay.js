@@ -1,23 +1,25 @@
 import styled from "styled-components";
 import { Trash } from "phosphor-react";
 
-import { ButtonWeek } from "./ButtonWeek";
+import { WeekButtonsDisplay } from "./WeekButtonsDisplay";
 
-export function HabitDisplay() {
+export function HabitDisplay({
+    habitTitle,
+    habitWeekdays,
+}) {
     // use state obj para rastrear os dias da semana
+    
+    console.log(habitWeekdays);
 
     return (
         <Wrapper>
             
             <Title>
-                <h3>Hábito</h3>
+                <h3>{habitTitle}</h3>
                 <Trash size={20} weight="fill" style={{cursor: 'pointer'}} />
             </Title>
 
-            <WeekButtons>
-                <ButtonWeek btnObj={{weekday: 'F', isActive: false}}/>
-                <ButtonWeek btnObj={{weekday: 'F', isActive: true}}/>
-            </WeekButtons>
+            <WeekButtonsDisplay habitWeekdays={habitWeekdays} />
             
         </Wrapper>
     );
@@ -32,12 +34,6 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 0.5rem;
-`
-
-
-const WeekButtons = styled.div` 
-    display: flex;
-    margin-top: 0.5rem;
 `
 
 const Title = styled.div`

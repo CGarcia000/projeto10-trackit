@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { ButtonWeek } from "./ButtonWeek";
+import { WeekButtonsConfig } from "./WeekButtonsConfig";
 
 export function HabitConfig() {
     // use state obj para rastrear os dias da semana
@@ -8,12 +8,8 @@ export function HabitConfig() {
     return (
         <Wrapper>
             <input placeholder="nome do hábito"/>
-            <WeekButtons>
-                
-                <ButtonWeek btnObj={{weekday: 'F', isActive: false}}/>
-                <ButtonWeek btnObj={{weekday: 'F', isActive: true}}/>
-            </WeekButtons>
 
+            <WeekButtonsConfig />
 
             <Options>
                 <span>Cancelar</span>
@@ -42,13 +38,9 @@ const Wrapper = styled.div`
         padding: 0.3rem;
         font-size: 1rem;
         line-height: 1.5rem;
+        border-radius: 5px;
+        border: 1px solid #d4d4d4;
     }
-`
-
-
-const WeekButtons = styled.div` 
-    display: flex;
-    margin-top: 0.5rem;
 `
 
 const Options = styled.div` 

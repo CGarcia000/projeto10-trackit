@@ -1,9 +1,15 @@
 import styled from "styled-components";
+import { useState } from "react";
+
 import { Check } from "phosphor-react";
 
 
 export function HabitViewer() {
-    const isPressed = true;
+    const [isPressed, setIsPressed] = useState(false);
+
+    function handleClick (e) {
+        setIsPressed(current => !current);
+    }
 
     return (
         <Wrapper>
@@ -16,7 +22,7 @@ export function HabitViewer() {
 
             </HabitInfo>
 
-            <ButtonCheck isPressed={isPressed} >
+            <ButtonCheck onClick={() => setIsPressed(current => !current)} isPressed={isPressed} >
                 <Check size={'3rem'} weight="bold" color={'#fff'} />
             </ButtonCheck>
 
