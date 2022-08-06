@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Trash } from "phosphor-react";
 
 import { ButtonWeek } from "./ButtonWeek";
 
@@ -10,7 +11,7 @@ export function HabitDisplay() {
             
             <Title>
                 <h3>Hábito</h3>
-                {/*Icon*/}
+                <Trash size={20} weight="fill" style={{cursor: 'pointer'}} />
             </Title>
 
             <WeekButtons>

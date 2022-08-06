@@ -1,15 +1,6 @@
 import styled from "styled-components";
 
 
-// function ButtonWeek() {
-//     <>
-//     <button>teste</button>
-//     {/* <Button>{btnObj.weekday}</Button> */}
-//     </>
-// }
-
-
-
 export function ButtonWeek({
     btnObj,
 }) {

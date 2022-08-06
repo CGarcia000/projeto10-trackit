@@ -8,6 +8,8 @@ import { HabitDisplay } from "./Habits/HabitDisplay";
 
 import { Body } from './Styled'
 
+import { Plus } from "phosphor-react";
+
 export function HabitsPage() {
     return (
         <>
@@ -16,7 +18,9 @@ export function HabitsPage() {
             <Body>
                 <Title>
                     <h2>Meus hábitos</h2>
-                    <button>+</button>
+                    <button>
+                        <Plus size={'0.9rem'} weight="bold" color={'#fff'} />
+                    </button>
                 </Title>
 
                 <Habits>
@@ -46,7 +50,7 @@ const Title = styled.div`
 
     h2 {
         font-size: 1.4rem;
-        font-weight: 500;
+        font-weight: 400;
         color: #126BA5;
     }
 

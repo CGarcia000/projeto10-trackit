@@ -19,26 +19,28 @@ export function Footer() {
     return (
         <Wrapper>
             <LinkWrapper fontSize='1.2rem'>
-                <Link to='/hoje'>Hábitos</Link>
+                <Link to='/habitos'>Hábitos</Link>
             </LinkWrapper>
 
             <ProgressBarWrapper>
-                <CircularProgressbarWithChildren 
-                    value={0.6} 
-                    background={true}
-                    backgroundPadding={4}
-                    maxValue={1} 
-                    styles={styleProgressBar}
-                >
-                    <img style={{ width: 40, marginTop: -5 }} src="https://i.imgur.com/b9NyUGm.png" alt="doge" />
-                    <div style={{ fontSize: 15, marginTop: -5, color: '#fff'}}>
-                        Hoje
-                    </div>
-                </CircularProgressbarWithChildren>
+                <Link to='/hoje'>
+                    <CircularProgressbarWithChildren 
+                        value={0.6} 
+                        background={true}
+                        backgroundPadding={4}
+                        maxValue={1} 
+                        styles={styleProgressBar}
+                    >
+                        <img style={{ width: 40, marginTop: -5 }} src="https://i.imgur.com/b9NyUGm.png" alt="doge" />
+                        <div style={{ fontSize: 15, marginTop: -5, color: '#fff'}}>
+                            Hoje
+                        </div>
+                    </CircularProgressbarWithChildren>
+                </Link>
             </ProgressBarWrapper>
 
             <LinkWrapper fontSize='1.2rem'>
-                <Link to='/hoje'>Histórico</Link>
+                <Link to='/historico'>Histórico</Link>
             </LinkWrapper>
 
         </Wrapper>

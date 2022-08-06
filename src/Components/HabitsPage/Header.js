@@ -24,4 +24,5 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 1.3rem;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
 `
