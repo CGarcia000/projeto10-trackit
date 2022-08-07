@@ -1,21 +1,73 @@
 import styled from "styled-components";
+import { useState, createContext } from "react";
+
 
 import { WeekButtonsConfig } from "./WeekButtonsConfig";
 
-export function HabitConfig() {
+const arr = [
+    {idDay: 0, day: 'D', active: false},
+    {idDay: 1, day: 'S', active: false},
+    {idDay: 2, day: 'T', active: false},
+    {idDay: 3, day: 'Q', active: false},
+    {idDay: 4, day: 'Q', active: false},
+    {idDay: 5, day: 'S', active: false},
+    {idDay: 6, day: 'S', active: false},
+];
+
+export const WeekDaysContext = createContext();
+
+export function HabitConfig({
+    setHabits,
+    setHabitConfigOpen,
+}) {
     // use state obj para rastrear os dias da semana
+    const [arrWeekDays, setArrWeekDays] = useState(JSON.parse(JSON.stringify(arr)));
+    const [habitName, setHabitName] = useState('');
+
+
+    function handleCancel() {
+        return;
+    }
+    
+    function handleSave() {
+        const arrWeekdaysRequest = makeArrWeekdaysRequest(arrWeekDays);
+
+        console.log({
+            name: habitName,
+            days: arrWeekdaysRequest,
+        })
+
+        setHabits(current => [{
+            id: 9000,
+            name: habitName,
+            days: arrWeekdaysRequest,
+        }, ...current])
+        setHabitConfigOpen(current => false);
+        setArrWeekDays(current => JSON.parse(JSON.stringify(arr)));
+        setHabitName('');
+        return;
+    }
+ 
+    function makeArrWeekdaysRequest(arr) {
+        return arr.filter(obj => obj.active).map(obj => obj.idDay);
+    }
 
     return (
         <Wrapper>
-            <input placeholder="nome do hábito"/>
+            <WeekDaysContext.Provider value={[arrWeekDays, setArrWeekDays]}>
 
-            <WeekButtonsConfig />
+                <input type="text" placeholder="nome do hábito" 
+                    value={habitName} onChange={e => setHabitName(e.target.value)}
+                />
 
-            <Options>
-                <span>Cancelar</span>
-                <button>Salvar</button>
-            </Options>
+                <WeekButtonsConfig />
+
+                <Options>
+                    <span onClick={handleCancel}>Cancelar</span>
+                    <button onClick={handleSave}>Salvar</button>
+                </Options>
             
+            </WeekDaysContext.Provider>
         </Wrapper>
     );
 }

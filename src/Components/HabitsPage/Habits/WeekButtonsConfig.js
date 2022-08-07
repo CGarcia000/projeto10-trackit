@@ -1,38 +1,23 @@
 import styled from "styled-components";
+import { useContext } from "react";
 
+import { WeekDaysContext } from "./HabitConfig";
 
-export function WeekButtonsConfig({
-    habitWeekdays
-}) {
+export function WeekButtonsConfig() {
+    const [arrWeekDays, setArrWeekDays] = useContext(WeekDaysContext);
 
-    function makeArrWeekDays (habitWeekdays) {
-        const arr = [
-            {day: 'D', active: false},
-            {day: 'S', active: false},
-            {day: 'T', active: false},
-            {day: 'Q', active: false},
-            {day: 'Q', active: false},
-            {day: 'S', active: false},
-            {day: 'S', active: false},
-        ];
-
-        habitWeekdays.forEach(dayIndex => {
-            arr[dayIndex].active = true;
-        });
-        return arr;
+    function toggleActive(dayButton) {
+        dayButton.active = !dayButton.active;
+        setArrWeekDays(() => [...arrWeekDays]);
     }
-
-    const arrWeekDays = makeArrWeekDays(habitWeekdays);
-
-
 
     return(
         <Buttons>
             {arrWeekDays.map((dayButton, i) => {
                 return (<Button 
                     key={i} 
-                    isConfig={true} 
                     isActive={dayButton.active}
+                    onClick={() => toggleActive(dayButton)}
                 >
                     {dayButton.day}
                 </Button>);
@@ -57,5 +42,5 @@ const Button = styled.div`
     color: ${props => props.isActive ? 'white' : '#d4d4d4'};
     background-color: ${props => props.isActive ? '#CFCFCF' : 'white'};
     margin-right: 0.3rem;
-    cursor: ${props => props.isConfig ? 'pointer' : 'auto'};
+    cursor: pointer;
 `

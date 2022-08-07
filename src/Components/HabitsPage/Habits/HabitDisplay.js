@@ -9,8 +9,6 @@ export function HabitDisplay({
 }) {
     // use state obj para rastrear os dias da semana
     
-    console.log(habitWeekdays);
-
     return (
         <Wrapper>
             

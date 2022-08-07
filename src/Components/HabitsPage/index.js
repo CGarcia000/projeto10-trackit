@@ -12,8 +12,8 @@ import { Plus } from "phosphor-react";
 
 export function HabitsPage() {
     const [haveHabit, setHaveHabit] = useState(false);
+    const [habitConfigOpen, setHabitConfigOpen] = useState(false);
     const [habits, setHabits] = useState([]); // add res de cria novo habito
-
 
     function getHabits(noHabit=true) {
         let resGetHabits = [];
@@ -36,11 +36,18 @@ export function HabitsPage() {
     }
 
     useEffect(() => {
-        const resGetHabits = getHabits(false);
+        const resGetHabits = getHabits();
         setHabits(resGetHabits);
     }, []);
+
+    useEffect(() => {
+        setHaveHabit(current => habits.length !== 0);
+    }, [habits]);
+
+    function addNewHabitConfig() {
+        setHabitConfigOpen(current => true);
+    }
     
-    console.log(habits, haveHabit);
     return (
         <>
             <Header />
@@ -49,12 +56,12 @@ export function HabitsPage() {
                 <Title>
                     <h2>Meus hábitos</h2>
                     <button>
-                        <Plus size={'0.9rem'} weight="bold" color={'#fff'} />
+                        <Plus onClick={addNewHabitConfig} size={'0.9rem'} weight="bold" color={'#fff'} />
                     </button>
                 </Title>
 
                 <Habits>
-                    {/* <HabitConfig /> */}
+                    {habitConfigOpen ? <HabitConfig setHabits={setHabits} setHabitConfigOpen={setHabitConfigOpen} /> : ''}
 
                     {habits.map(habit => <HabitDisplay key={habit.key} habitTitle={habit.name} habitWeekdays={habit.days} />)}
 
