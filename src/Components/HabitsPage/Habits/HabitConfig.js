@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import { useState, createContext } from "react";
+import { useState, createContext, useContext } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
+import { UserContext } from "../../App";
 
 import { WeekButtonsConfig } from "./WeekButtonsConfig";
 
@@ -23,14 +25,24 @@ export function HabitConfig({
     // use state obj para rastrear os dias da semana
     const [arrWeekDays, setArrWeekDays] = useState(JSON.parse(JSON.stringify(arr)));
     const [habitName, setHabitName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [user] = useContext(UserContext);
 
 
-    function handleCancel() {
+    function handleCancel(isLoading=false) {
+        if (isLoading) return;
+        setHabitConfigOpen(current => false);
         return;
     }
     
-    function handleSave() {
+    function handleSave(isLoading=false) {
+        if (isLoading) return;
         const arrWeekdaysRequest = makeArrWeekdaysRequest(arrWeekDays);
+
+        setIsLoading(current => true);
+        
+        // postHabit(body, user.token).then().catch();
 
         console.log({
             name: habitName,
@@ -42,10 +54,12 @@ export function HabitConfig({
             name: habitName,
             days: arrWeekdaysRequest,
         }, ...current])
+
         setHabitConfigOpen(current => false);
         setArrWeekDays(current => JSON.parse(JSON.stringify(arr)));
         setHabitName('');
         return;
+
     }
  
     function makeArrWeekdaysRequest(arr) {
@@ -62,9 +76,21 @@ export function HabitConfig({
 
                 <WeekButtonsConfig />
 
-                <Options>
-                    <span onClick={handleCancel}>Cancelar</span>
-                    <button onClick={handleSave}>Salvar</button>
+                <Options isLoading={isLoading}>
+                    <span onClick={() => handleCancel(isLoading)}>Cancelar</span>
+                    <button onClick={() => handleSave(isLoading)}>
+                        {isLoading?
+                        <ThreeDots 
+                            height="2rem"
+                            width="2rem"
+                            radius="6"
+                            color="white"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+                            visible={true}
+                        /> : 
+                        'Salvar'}
+                    </button>
                 </Options>
             
             </WeekDaysContext.Provider>
@@ -105,6 +131,7 @@ const Options = styled.div`
         font-size: 0.8rem;
         margin-right: 0.8rem;
         color: #52B6FF;
+        opacity: ${props => props.isLoading ? '0.6' : '1'};
         cursor: pointer;
     }
 
@@ -112,7 +139,7 @@ const Options = styled.div`
         width: 4rem;
         height: 1.5rem;
         color:white;
-        background-color: #52B6FF;
+        background-color: ${props => props.isLoading ? 'rgba(82, 182, 255, 0.6)' : '#52B6FF'};
         border: none;
         border-radius: 3px;
         font-size: 1rem;

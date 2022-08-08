@@ -2,24 +2,23 @@ import axios from 'axios';
 
 const BASE_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit';
 
-export function makeRequestHeader(token) {
-    return {
-        headers: {
-            Authorization: 'Bearer' + token,
-        }
-    }
-}
-
-
 export function postSignUp(body) {
     // body = { email, name, image, password }
-    const promise = axios.post(`${BASE_URL}/auth/sign-up`, body);
+    const promise = axios({
+        method: 'post',
+        url: `${BASE_URL}/auth/sign-up`,
+        data: body,
+    })
     return promise;
 }
 
 export function postLogin(body) {
     // body = { email, password }
-    const promise = axios.post(`${BASE_URL}/auth/login`, body);
+    const promise = axios({
+        method: 'post',
+        url: `${BASE_URL}/auth/login`,
+        data: body,
+    })
     return promise;
     // res = {id, name, image, email, password, token }
 }
@@ -54,7 +53,7 @@ export function getHabits(token) {
     // res = [{idHabit, name, days}, ...]
 }
 
-export function deleteHabits(idHabit, token) {
+export function deleteHabit(idHabit, token) {
     const promise = axios({
         method: 'delete',
         url: `${BASE_URL}/habits/${idHabit}`,

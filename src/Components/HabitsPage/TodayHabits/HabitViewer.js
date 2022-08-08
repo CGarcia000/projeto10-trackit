@@ -1,35 +1,57 @@
 import styled from "styled-components";
-import { useState } from "react";
-
+import { useState, useEffect, useContext } from "react";
 import { Check } from "phosphor-react";
 
+import { UserContext } from "../../App";
 
-export function HabitViewer() {
-    const [isPressed, setIsPressed] = useState(false);
+export function HabitViewer({
+    habitObj,
+    setTodayHabits,
+}) {
+    const [isPressed, setIsPressed] = useState(habitObj.done);
+    const [sequence, setSequence] = useState(habitObj.currentSequence);
+    const [isRecord, setIsRecord] = useState(habitObj.highestSequence === habitObj.currentSequence);
 
-    function handleClick (e) {
-        setIsPressed(current => !current);
+    const [user] = useContext(UserContext);
+
+    function handleClick() {
+        setIsPressed(current => !current)
+        if (isPressed) { // foi desmarcado (post para marcar como undone)
+            //postHabitAsNotDone(habitObj.id, user.token).then().catch()
+            setSequence(current => current - 1);
+            habitObj.done = false;
+            setTodayHabits(current => [...current]);
+        }
+        else { // foi marcado (post para marcar como done)
+            //postHabitAsDone(habitObj.id, user.token).then().catch()
+            setSequence(current => current + 1);
+            habitObj.done = true;
+            setTodayHabits(current => [...current]);
+        }
     }
+
+    useEffect(() => {
+        setIsRecord(current => habitObj.highestSequence <= sequence)
+    }, [sequence])
 
     return (
         <Wrapper>
 
-            <HabitInfo isPressed={isPressed} isRecord={false}>
-                <h3>{'Ler 1 capítulo de livro'}</h3>
+            <HabitInfo isPressed={isPressed} isRecord={isRecord}>
+                <h3>{habitObj.name}</h3>
 
-                <p>Sequência atual: <span>{'4 dias'}</span></p>
-                <p>Seu recorde: <span className="record">{'5 dias'}</span></p>
+                <p>Sequência atual: <span>{sequence}</span></p>
+                <p>Seu recorde: <span className="record">{isRecord ? sequence : habitObj.highestSequence}</span></p>
 
             </HabitInfo>
 
-            <ButtonCheck onClick={() => setIsPressed(current => !current)} isPressed={isPressed} >
+            <ButtonCheck onClick={handleClick} isPressed={isPressed} >
                 <Check size={'3rem'} weight="bold" color={'#fff'} />
             </ButtonCheck>
 
         </Wrapper>
     );
 }
-
 
 const Wrapper = styled.div`
     display:flex;

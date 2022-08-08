@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -10,10 +10,14 @@ import { Body } from './Styled'
 
 import { Plus } from "phosphor-react";
 
+import { UserContext } from "../App";
+
 export function HabitsPage() {
     const [haveHabit, setHaveHabit] = useState(false);
     const [habitConfigOpen, setHabitConfigOpen] = useState(false);
     const [habits, setHabits] = useState([]); // add res de cria novo habito
+
+    const [user] = useContext(UserContext);
 
     function getHabits(noHabit=true) {
         let resGetHabits = [];
@@ -36,12 +40,14 @@ export function HabitsPage() {
     }
 
     useEffect(() => {
-        const resGetHabits = getHabits();
+        const resGetHabits = getHabits(false);
+        // getHabits(user.token).then().catch();
         setHabits(resGetHabits);
     }, []);
 
     useEffect(() => {
         setHaveHabit(current => habits.length !== 0);
+        console.log(habits)
     }, [habits]);
 
     function addNewHabitConfig() {
@@ -63,7 +69,7 @@ export function HabitsPage() {
                 <Habits>
                     {habitConfigOpen ? <HabitConfig setHabits={setHabits} setHabitConfigOpen={setHabitConfigOpen} /> : ''}
 
-                    {habits.map(habit => <HabitDisplay key={habit.key} habitTitle={habit.name} habitWeekdays={habit.days} />)}
+                    {habits.map(habit => <HabitDisplay key={habit.key} habitObj={habit} setHabits={setHabits}/>)}
 
                 </Habits>
 

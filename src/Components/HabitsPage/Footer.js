@@ -1,12 +1,15 @@
 import styled from "styled-components";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 import { LinkWrapper } from './Styled';
 
+import { PercentDoneContext } from "../App";
 
 export function Footer() {
+    const [percentDone] = useContext(PercentDoneContext);
 
     const styleProgressBar = buildStyles({
         pathTransitionDuration: 0.5,
@@ -25,7 +28,7 @@ export function Footer() {
             <ProgressBarWrapper>
                 <Link to='/hoje'>
                     <CircularProgressbarWithChildren 
-                        value={0.6} 
+                        value={percentDone/100} 
                         background={true}
                         backgroundPadding={4}
                         maxValue={1} 

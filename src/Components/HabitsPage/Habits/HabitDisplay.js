@@ -1,23 +1,36 @@
 import styled from "styled-components";
 import { Trash } from "phosphor-react";
+import { useContext } from "react";
 
 import { WeekButtonsDisplay } from "./WeekButtonsDisplay";
 
+import { UserContext } from "../../App";
+
 export function HabitDisplay({
-    habitTitle,
-    habitWeekdays,
+    habitObj,
+    setHabits,
 }) {
     // use state obj para rastrear os dias da semana
+    const [user] = useContext(UserContext);
+
+    function handleDelete() {
+        const resultDelete = window.confirm('Você deseja deletar o hábito?');
+        if (resultDelete) {
+            //deleteHabit(habitObj.id, user.token).then().catch();
+            setHabits(current => current.filter(habit => habit.id !== habitObj.id));
+            return;
+        }
+    }
     
     return (
         <Wrapper>
             
             <Title>
-                <h3>{habitTitle}</h3>
-                <Trash size={20} weight="fill" style={{cursor: 'pointer'}} />
+                <h3>{habitObj.name}</h3>
+                <Trash size={20} weight="fill" style={{cursor: 'pointer'}} onClick={handleDelete} />
             </Title>
 
-            <WeekButtonsDisplay habitWeekdays={habitWeekdays} />
+            <WeekButtonsDisplay habitWeekdays={habitObj.days} />
             
         </Wrapper>
     );
