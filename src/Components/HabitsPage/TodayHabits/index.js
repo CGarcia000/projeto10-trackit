@@ -3,6 +3,8 @@ import { useState, useEffect, useContext } from "react";
 
 import { PercentDoneContext, UserContext } from "../../App"; 
 
+import { getTodayHabits } from "../../../assets/services/requests";
+
 import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { Body } from '../Styled';
@@ -19,40 +21,10 @@ export function TodayHabits() {
 
     const dayjs = require('dayjs');
 
-
-    function getHabits(noHabit=true) {
-        let resGetHabits = [];
-        if (!noHabit) {
-            resGetHabits = [{
-                    id: 1,
-                    name: "Nome do hábito",
-                    done: false,
-                    currentSequence: 1,
-                    highestSequence: 3,
-                }, {
-                    id: 2,
-                    name: "Nome do hábito2",
-                    done: false,
-                    currentSequence: 4,
-                    highestSequence: 5,
-                }, {
-                    id: 3,
-                    name: "Nome do hábito3",
-                    done: false,
-                    currentSequence: 5,
-                    highestSequence: 5,
-                }
-            ];
-        }   
-        // if (resGetHabits.length !== 0) setHaveHabit(current => true);
-        // if (resGetHabits.length === 0) setHaveHabit(current => false);
-        return resGetHabits;
-    }
-
     useEffect(() => {
-        const resGetHabits = getHabits(false);
-        //getTodayHabits(user.token).then().catch();
-        setTodayHabits(resGetHabits);
+        getTodayHabits(user.token).then(res => {
+            setTodayHabits(res.data);
+        }).catch();
     }, []);
 
     useEffect(() => {
@@ -66,9 +38,9 @@ export function TodayHabits() {
             const percent = Math.ceil((habitsDone.length/todayHabits.length)*100);
             setpercentDone(current => percent);
             return;
-        }
+        } 
+        setpercentDone(current => 0);
         setNoHabitDone(current => true);
-        
     }, [todayHabits]);
 
     return (

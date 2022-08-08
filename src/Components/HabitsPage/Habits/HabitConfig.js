@@ -4,6 +4,8 @@ import { ThreeDots } from "react-loader-spinner";
 
 import { UserContext } from "../../App";
 
+import { postHabit } from "../../../assets/services/requests";
+
 import { WeekButtonsConfig } from "./WeekButtonsConfig";
 
 const arr = [
@@ -22,7 +24,6 @@ export function HabitConfig({
     setHabits,
     setHabitConfigOpen,
 }) {
-    // use state obj para rastrear os dias da semana
     const [arrWeekDays, setArrWeekDays] = useState(JSON.parse(JSON.stringify(arr)));
     const [habitName, setHabitName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -42,24 +43,26 @@ export function HabitConfig({
 
         setIsLoading(current => true);
         
-        // postHabit(body, user.token).then().catch();
-
-        console.log({
+        const body = {
             name: habitName,
             days: arrWeekdaysRequest,
-        })
+        }
+        
+        postHabit(body, user.token).then(res => {
+            setHabits(current => [{
+                id: res.data.id,
+                name: res.data.name,
+                days: res.data.days,
+            }, ...current])
 
-        setHabits(current => [{
-            id: 9000,
-            name: habitName,
-            days: arrWeekdaysRequest,
-        }, ...current])
-
-        setHabitConfigOpen(current => false);
-        setArrWeekDays(current => JSON.parse(JSON.stringify(arr)));
-        setHabitName('');
-        return;
-
+            setHabitConfigOpen(current => false);
+            setArrWeekDays(current => JSON.parse(JSON.stringify(arr)));
+            setHabitName('');
+        }).catch(e => {
+            alert('Um erro inesperado ocorreu!')
+            setIsLoading(current => false);
+            console.log(e);
+        });
     }
  
     function makeArrWeekdaysRequest(arr) {
@@ -71,10 +74,13 @@ export function HabitConfig({
             <WeekDaysContext.Provider value={[arrWeekDays, setArrWeekDays]}>
 
                 <input type="text" placeholder="nome do hábito" 
-                    value={habitName} onChange={e => setHabitName(e.target.value)}
+                    value={habitName} onChange={e => {
+                        if (isLoading) return;
+                        setHabitName(e.target.value)
+                    }}
                 />
 
-                <WeekButtonsConfig />
+                <WeekButtonsConfig isLoading={isLoading}/>
 
                 <Options isLoading={isLoading}>
                     <span onClick={() => handleCancel(isLoading)}>Cancelar</span>

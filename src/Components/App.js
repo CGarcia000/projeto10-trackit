@@ -15,8 +15,6 @@ export function App() {
     const [percentDone, setpercentDone] = useState(0);
     const [user, setUser] = useState({});
 
-    console.log(user);
-
     return (
         <>
             <GlobalStyle />

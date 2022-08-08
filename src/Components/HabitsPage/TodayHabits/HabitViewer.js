@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { Check } from "phosphor-react";
 
+import { postHabitAsDone, postHabitAsNotDone } from "../../../assets/services/requests";
+
 import { UserContext } from "../../App";
 
 export function HabitViewer({
@@ -17,16 +19,22 @@ export function HabitViewer({
     function handleClick() {
         setIsPressed(current => !current)
         if (isPressed) { // foi desmarcado (post para marcar como undone)
-            //postHabitAsNotDone(habitObj.id, user.token).then().catch()
-            setSequence(current => current - 1);
-            habitObj.done = false;
-            setTodayHabits(current => [...current]);
+            postHabitAsNotDone(habitObj.id, user.token).then(res => {
+                setSequence(current => current - 1);
+                habitObj.done = false;
+                setTodayHabits(current => [...current]);
+            }).catch(e => {
+                console.log(e)
+            })
         }
         else { // foi marcado (post para marcar como done)
-            //postHabitAsDone(habitObj.id, user.token).then().catch()
-            setSequence(current => current + 1);
-            habitObj.done = true;
-            setTodayHabits(current => [...current]);
+            postHabitAsDone(habitObj.id, user.token).then(res => {
+                setSequence(current => current + 1);
+                habitObj.done = true;
+                setTodayHabits(current => [...current]);
+            }).catch(e => {
+                console.log(e)
+            });
         }
     }
 

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.27.2",
     "dayjs": "^1.11.4",
     "phosphor-react": "^1.4.1",
     "react": "^17.0.2",

@@ -14,9 +14,9 @@ export function Footer() {
     const styleProgressBar = buildStyles({
         pathTransitionDuration: 0.5,
         backgroundColor: "#52B6FF",
-          textColor: "#fff",
-          pathColor: "#fff",
-          trailColor: "transparent",
+        textColor: "#fff",
+        pathColor: "#fff",
+        trailColor: "transparent",
     });
 
     return (

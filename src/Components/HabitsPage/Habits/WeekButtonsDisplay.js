@@ -28,7 +28,7 @@ export function WeekButtonsDisplay({
         <Buttons>
             {arrWeekDays.map((dayButton, i) => {
                 return (<Button 
-                    key={i} 
+                    key={`btn${i}`} 
                     isActive={dayButton.active}
                 >
                     {dayButton.day}

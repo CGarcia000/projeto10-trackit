@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 
+import { getHabits } from "../../assets/services/requests";
+
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { HabitConfig } from "./Habits/HabitConfig";
@@ -18,36 +20,19 @@ export function HabitsPage() {
     const [habits, setHabits] = useState([]); // add res de cria novo habito
 
     const [user] = useContext(UserContext);
-
-    function getHabits(noHabit=true) {
-        let resGetHabits = [];
-        if (!noHabit) {
-            resGetHabits = [{
-                    id: 1,
-                    name: "Nome do hábito",
-                    days: [1, 3, 5]
-                }, {
-                    id: 2,
-                    name: "Nome do hábito 2",
-                    days: [1, 3, 4, 6]
-                }
-            ];
-        }   
-        setHaveHabit(current => resGetHabits.length !== 0);
-        // if (resGetHabits.length !== 0) setHaveHabit(current => true);
-        // if (resGetHabits.length === 0) setHaveHabit(current => false);
-        return resGetHabits;
-    }
-
+    
     useEffect(() => {
-        const resGetHabits = getHabits(false);
-        // getHabits(user.token).then().catch();
-        setHabits(resGetHabits);
+        getHabits(user.token).then(res => {
+            const resGetHabits = res.data;
+            setHaveHabit(current => resGetHabits.length !== 0);
+            setHabits(resGetHabits);
+        }).catch(e => {
+            console.log(e);
+        });
     }, []);
 
     useEffect(() => {
         setHaveHabit(current => habits.length !== 0);
-        console.log(habits)
     }, [habits]);
 
     function addNewHabitConfig() {
@@ -86,7 +71,6 @@ export function HabitsPage() {
 
 const Title = styled.div`
     display: flex;
-    /* width: 90%; */
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;

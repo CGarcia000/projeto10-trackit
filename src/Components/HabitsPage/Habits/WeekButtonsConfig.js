@@ -3,10 +3,13 @@ import { useContext } from "react";
 
 import { WeekDaysContext } from "./HabitConfig";
 
-export function WeekButtonsConfig() {
+export function WeekButtonsConfig({
+    isLoading
+}) {
     const [arrWeekDays, setArrWeekDays] = useContext(WeekDaysContext);
 
     function toggleActive(dayButton) {
+        if (isLoading) return;
         dayButton.active = !dayButton.active;
         setArrWeekDays(() => [...arrWeekDays]);
     }

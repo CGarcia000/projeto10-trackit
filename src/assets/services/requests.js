@@ -4,12 +4,12 @@ const BASE_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit';
 
 export function postSignUp(body) {
     // body = { email, name, image, password }
-    const promise = axios({
-        method: 'post',
-        url: `${BASE_URL}/auth/sign-up`,
-        data: body,
-    })
-    return promise;
+    // const promise = axios({
+    //     method: 'post',
+    //     url: `${BASE_URL}/auth/sign-up`,
+    //     data: body,
+    // })
+    return axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', body);
 }
 
 export function postLogin(body) {
@@ -25,10 +25,6 @@ export function postLogin(body) {
 
 export function postHabit(body, token) {
     // body = { name, days }, 
-    // const config = makeRequestHeader(token)
-    // const promise = axios.post(`${BASE_URL}/habits`, body, config);
-    // return promise;
-
     const promise = axios({
         method: 'post',
         url: `${BASE_URL}/habits`,
@@ -77,11 +73,9 @@ export function getTodayHabits(token) {
 }
 
 export function postHabitAsDone(idHabit, token) {
-    // body = { name, days }, 
     const promise = axios({
         method: 'post',
         url: `${BASE_URL}/habits/${idHabit}/check`,
-        // data: body,
         headers: {
             Authorization: 'Bearer ' + token,
         },
@@ -91,11 +85,9 @@ export function postHabitAsDone(idHabit, token) {
 }
 
 export function postHabitAsNotDone(idHabit, token) {
-    // body = { name, days }, 
     const promise = axios({
         method: 'post',
         url: `${BASE_URL}/habits/${idHabit}/uncheck`,
-        // data: body,
         headers: {
             Authorization: 'Bearer ' + token,
         },
